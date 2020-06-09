@@ -6,7 +6,7 @@ public interface GeneralDao<T> {
 
     T save(T t);
 
-    void update(T t);
+    T update(T t);
 
     List<T> getAll();
 

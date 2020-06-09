@@ -16,13 +16,14 @@ public class LibraryDaoImpl extends AbstractDao implements GeneralDao<Library> {
     }
 
     @Override
-    public void update(Library library) {
+    public Library update(Library library) {
         entityManager.merge(library);
+        return library;
     }
 
     @Override
     public List<Library> getAll() {
-        return entityManager.createQuery("SELECT l FROM Library l LEFT JOIN FETCH l.books b LEFT JOIN FETCH b.authors a", Library.class)
+        return entityManager.createQuery("SELECT l FROM Library l LEFT JOIN FETCH l.books b", Library.class)
                 .getResultList();
     }
 

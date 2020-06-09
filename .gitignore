@@ -1,2 +1,5 @@
 # Project exclude paths
 /target/
+.idea
+.HELP.md
+.IdeaProjects.iml

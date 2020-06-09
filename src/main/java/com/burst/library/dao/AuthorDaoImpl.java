@@ -14,8 +14,9 @@ public class AuthorDaoImpl extends AbstractDao implements GeneralDao<Author> {
     }
 
     @Override
-    public void update(Author author) {
+    public Author update(Author author) {
         entityManager.merge(author);
+        return author;
     }
 
     @Override

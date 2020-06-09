@@ -3,7 +3,6 @@ package com.burst.library.service;
 import com.burst.library.dao.GeneralDao;
 import com.burst.library.model.Author;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,10 +12,10 @@ import java.util.List;
 @Transactional
 public class AuthorServiceImpl implements GeneralService<Author> {
 
-    private GeneralDao generalDao;
+    private final GeneralDao<Author> generalDao;
 
     @Autowired
-    public AuthorServiceImpl(@Qualifier(value = "authorDaoImpl") GeneralDao generalDao) {
+    public AuthorServiceImpl(GeneralDao<Author> generalDao) {
         this.generalDao = generalDao;
     }
 
@@ -26,13 +25,15 @@ public class AuthorServiceImpl implements GeneralService<Author> {
     }
 
     @Override
-    public Object getByName(String name) {
-        return generalDao.getByName(name);
+    public Author getByName(String name) {
+        Author author = generalDao.getByName(name);
+        return author;
     }
 
     @Override
-    public Object getById(Long id) {
-        return generalDao.getById(id);
+    public Author getById(Long id) {
+        Author author = generalDao.getById(id);
+        return author;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class AuthorServiceImpl implements GeneralService<Author> {
         Author newAuthor = new Author();
         newAuthor.setFirstName(author.getFirstName());
         newAuthor.setLastName(author.getLastName());
-        return (Author) generalDao.save(author);
+        return generalDao.save(author);
     }
 
     @Override

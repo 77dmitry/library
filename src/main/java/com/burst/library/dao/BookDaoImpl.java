@@ -15,14 +15,18 @@ public class BookDaoImpl extends AbstractDao implements GeneralDao<Book> {
     }
 
     @Override
-    public void update(Book book) {
+    public Book update(Book book) {
         entityManager.merge(book);
+        return book;
     }
 
     @Override
     public List<Book> getAll() {
-        return entityManager.createQuery("SELECT b FROM Book b LEFT JOIN FETCH b.authors a", Book.class)
+        List<Book> list = entityManager.createQuery("SELECT b FROM Book b " +
+                "LEFT JOIN FETCH b.authors a " +
+                "LEFT JOIN FETCH b.genre g ", Book.class)
                 .getResultList();
+        return list;
     }
 
     @Override

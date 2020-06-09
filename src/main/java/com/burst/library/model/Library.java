@@ -16,7 +16,7 @@ public class Library {
     @Column(name = "name_library")
     private String nameLibrary;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "libraries_books",
             joinColumns = @JoinColumn(name = "library_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
@@ -37,13 +37,10 @@ public class Library {
         this.nameLibrary = nameLibrary;
     }
 
-    public Set<Book> getBooks() {
-        return books;
-    }
+    public Set<Book> getBooks() { return books; }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
+    public void setBooks(Set<Book> books) { this.books = books; }
+
 
     @Override
     public boolean equals(Object o) {

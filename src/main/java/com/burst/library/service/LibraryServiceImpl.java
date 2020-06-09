@@ -1,6 +1,6 @@
 package com.burst.library.service;
 
-import com.burst.library.dao.LibraryDaoImpl;
+import com.burst.library.dao.GeneralDao;
 import com.burst.library.model.Library;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @Transactional
 public class LibraryServiceImpl implements GeneralService<Library> {
 
-    private LibraryDaoImpl repository;
+    private final GeneralDao<Library> repository;
 
-    public LibraryServiceImpl(LibraryDaoImpl repository) {
+    public LibraryServiceImpl(GeneralDao<Library> repository) {
         this.repository = repository;
     }
 
