@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public class AuthorDaoImpl extends AbstractDao implements GeneralDao<Author> {
+
     @Override
     public Author save(Author author) {
         entityManager.persist(author);
@@ -27,14 +28,16 @@ public class AuthorDaoImpl extends AbstractDao implements GeneralDao<Author> {
 
     @Override
     public Author getByName(String name) {
-        return entityManager.createQuery("SELECT a FROM Author a WHERE a.lastName = :name", Author.class)
+        Author author = entityManager.createQuery("SELECT a FROM Author a WHERE a.lastName = :name", Author.class)
                 .setParameter("name", name)
                 .getResultList().stream().findFirst().orElse(new Author());
+        return author;
     }
 
     @Override
     public Author getById(Long id) {
-        return entityManager.find(Author.class, id);
+        Author author = entityManager.find(Author.class, id);
+        return author;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class BookDaoImpl extends AbstractDao implements GeneralDao<Book> {
     public List<Book> getAll() {
         List<Book> list = entityManager.createQuery("SELECT b FROM Book b " +
                 "LEFT JOIN FETCH b.authors a " +
-                "LEFT JOIN FETCH b.genre g ", Book.class)
+                "LEFT JOIN FETCH b.genre g", Book.class)
                 .getResultList();
         return list;
     }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
-class BookServiceImpl implements GeneralService<Book> {
+class BookServiceImpl implements GeneralService<Book>, CheckEntityValidity {
 
     private GeneralDao<Book> repository;
 
@@ -51,18 +51,20 @@ class BookServiceImpl implements GeneralService<Book> {
     @Override
     public Book add(Book newBook) {
         Book book = repository.getByName(newBook.getTitle());
-        if (book.getTitle() == null) {
-            book.setTitle(newBook.getTitle());
-            for (Author author : newBook.getAuthors()) {
-                if (authorGeneralService.getByName(author.getLastName()) != null) {
-                    book.getAuthors().add(authorGeneralService.add(author));
-                }
+        if (book.getTitle() != null) {
+            return book;
+        }
+        book.setTitle(newBook.getTitle());
+        for (Author author : newBook.getAuthors()) {
+            if (isValidAuthor(author)) {
+                book.getAuthors().add(authorGeneralService.add(author));
+            } else {
                 book.getAuthors().add(author);
             }
-            Genre genre = (Genre) genreGeneralService.getByName(newBook.getGenre().getNameGenres());
-            if (genre.getNameGenres() == null) {
-                genreGeneralService.add(newBook.getGenre());
-            }
+        }
+        if (isValidGenre(newBook.getGenre())) {
+            book.setGenre(genreGeneralService.add(newBook.getGenre()));
+        } else {
             book.setGenre(newBook.getGenre());
         }
         return repository.save(book);
@@ -71,5 +73,22 @@ class BookServiceImpl implements GeneralService<Book> {
     @Override
     public void delete(Long id) {
         repository.delete(id);
+    }
+
+
+    @Override
+    public boolean isValidAuthor(Author author) {
+        if (authorGeneralService.getByName(author.getLastName()) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isValidGenre(Genre genre) {
+        if (genreGeneralService.getByName(genre.getNameGenres()) == null) {
+            return false;
+        }
+        return true;
     }
 }
