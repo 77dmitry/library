@@ -1,7 +1,9 @@
 package com.burst.library.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "genres")
@@ -13,6 +15,9 @@ public class Genre {
 
     @Column(name = "name_genre")
     private String nameGenres;
+
+    @OneToMany
+    private Set<Book> bookSet = new HashSet<>();
 
     public Genre() {
     }

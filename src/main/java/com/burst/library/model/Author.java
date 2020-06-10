@@ -1,5 +1,7 @@
 package com.burst.library.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,12 +14,15 @@ public class Author {
     private Long id;
 
     @Column(name = "first_name")
+    @NonNull
     private String firstName;
 
     @Column(name = "last_name")
+    @NonNull
     private String lastName;
 
-    public Author() {}
+    public Author() {
+    }
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;

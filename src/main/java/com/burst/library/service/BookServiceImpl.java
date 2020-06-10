@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
-class BookServiceImpl implements GeneralService<Book>, CheckEntityValidity {
+class BookServiceImpl implements GeneralService<Book> {
 
     private GeneralDao<Book> repository;
 
@@ -57,15 +57,16 @@ class BookServiceImpl implements GeneralService<Book>, CheckEntityValidity {
         book.setTitle(newBook.getTitle());
         for (Author author : newBook.getAuthors()) {
             if (isValidAuthor(author)) {
-                book.getAuthors().add(authorGeneralService.add(author));
+                book.addAuthor((Author) authorGeneralService.getByName(author.getLastName()));
+                break;
             } else {
-                book.getAuthors().add(author);
+                book.addAuthor(authorGeneralService.add(author));
             }
         }
         if (isValidGenre(newBook.getGenre())) {
-            book.setGenre(genreGeneralService.add(newBook.getGenre()));
+            book.setGenre((Genre) genreGeneralService.getByName(newBook.getGenre().getNameGenres()));
         } else {
-            book.setGenre(newBook.getGenre());
+            book.setGenre(genreGeneralService.add(newBook.getGenre()));
         }
         return repository.save(book);
     }
@@ -75,20 +76,11 @@ class BookServiceImpl implements GeneralService<Book>, CheckEntityValidity {
         repository.delete(id);
     }
 
-
-    @Override
-    public boolean isValidAuthor(Author author) {
-        if (authorGeneralService.getByName(author.getLastName()) == null) {
-            return false;
-        }
-        return true;
+    private boolean isValidAuthor(Author author) {
+        return authorGeneralService.getByName(author.getLastName()) != null;
     }
 
-    @Override
-    public boolean isValidGenre(Genre genre) {
-        if (genreGeneralService.getByName(genre.getNameGenres()) == null) {
-            return false;
-        }
-        return true;
+    private boolean isValidGenre(Genre genre) {
+        return genreGeneralService.getByName(genre.getNameGenres()) != null;
     }
 }
