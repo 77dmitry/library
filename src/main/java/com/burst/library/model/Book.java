@@ -26,6 +26,9 @@ public class Book {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
+    @ManyToMany(mappedBy = "books")
+    private Set<Library> libraries = new HashSet<>();
+
     public Book() {
     }
 
@@ -63,6 +66,14 @@ public class Book {
 
     public void removeAuthor(Author author) {
         authors.remove(author);
+    }
+
+    public Set<Library> getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries(Set<Library> libraries) {
+        this.libraries = libraries;
     }
 
     @Override
