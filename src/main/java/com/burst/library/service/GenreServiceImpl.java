@@ -34,6 +34,10 @@ public class GenreServiceImpl implements GeneralService<Genre> {
 
     @Override
     public Genre add(Genre genre) {
+        Genre newGenre = generalDao.getByName(genre.getNameGenres());
+        if (newGenre.getNameGenres().isEmpty()) {
+            newGenre.setNameGenres(genre.getNameGenres());
+        }
         return generalDao.save(genre);
     }
 

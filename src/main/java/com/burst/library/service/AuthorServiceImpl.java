@@ -38,10 +38,14 @@ public class AuthorServiceImpl implements GeneralService<Author> {
 
     @Override
     public Author add(Author author) {
-        Author newAuthor = new Author();
-        newAuthor.setFirstName(author.getFirstName());
-        newAuthor.setLastName(author.getLastName());
-        return generalDao.save(author);
+        Author newAuthor = generalDao.getByName(author.getLastName());
+        if (newAuthor.getFirstName().isEmpty()) {
+            newAuthor.setFirstName(author.getFirstName());
+        }
+        if (newAuthor.getLastName().isEmpty()) {
+            newAuthor.setLastName(author.getLastName());
+        }
+        return generalDao.save(newAuthor);
     }
 
     @Override

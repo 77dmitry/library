@@ -16,11 +16,12 @@ public class Library {
     @Column(name = "name_library")
     private String nameLibrary;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "libraries_books",
             joinColumns = @JoinColumn(name = "library_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<Book> books = new HashSet<>();
+
 
     public Library() {
     }
@@ -37,9 +38,13 @@ public class Library {
         this.nameLibrary = nameLibrary;
     }
 
-    public Set<Book> getBooks() { return books; }
+    public Set<Book> getBooks() {
+        return books;
+    }
 
-    public void setBooks(Set<Book> books) { this.books = books; }
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 
 
     @Override
@@ -55,12 +60,4 @@ public class Library {
         return Objects.hash(nameLibrary);
     }
 
-    @Override
-    public String toString() {
-        return "Library{" +
-                "id=" + id +
-                ", nameLibrary='" + nameLibrary + '\'' +
-                ", books=" + books +
-                '}';
-    }
 }

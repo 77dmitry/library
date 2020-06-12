@@ -1,7 +1,9 @@
 package com.burst.library.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "genres")
@@ -13,6 +15,9 @@ public class Genre {
 
     @Column(name = "name_genre")
     private String nameGenres;
+
+    @OneToMany
+    private Set<Book> bookSet = new HashSet<>();
 
     public Genre() {
     }
@@ -38,13 +43,12 @@ public class Genre {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Genre genre = (Genre) o;
-        return Objects.equals(id, genre.id) &&
-                Objects.equals(nameGenres, genre.nameGenres);
+        return Objects.equals(nameGenres, genre.nameGenres);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nameGenres);
+        return Objects.hash(nameGenres);
     }
 
     @Override

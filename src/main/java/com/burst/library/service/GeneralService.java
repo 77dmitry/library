@@ -6,9 +6,9 @@ public interface GeneralService<T>{
 
     List<T> getAll();
 
-    Object getByName(String name);
+    T getByName(String name);
 
-    Object getById(Long id);
+    T getById(Long id);
 
     T add(T t);
 
