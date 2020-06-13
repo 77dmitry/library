@@ -16,7 +16,7 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -25,9 +25,6 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "genre_id")
     private Genre genre;
-
-    @ManyToMany(mappedBy = "books")
-    private Set<Library> libraries = new HashSet<>();
 
     public Book() {
     }
@@ -68,13 +65,6 @@ public class Book {
         authors.remove(author);
     }
 
-    public Set<Library> getLibraries() {
-        return libraries;
-    }
-
-    public void setLibraries(Set<Library> libraries) {
-        this.libraries = libraries;
-    }
 
     @Override
     public boolean equals(Object o) {

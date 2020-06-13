@@ -48,12 +48,10 @@ public class Library {
 
     public void addBook(Book book) {
         books.add(book);
-        book.getLibraries().add(this);
     }
 
     public void removeBook(Book book) {
         books.remove(book);
-        book.getLibraries().remove(this);
     }
 
 
