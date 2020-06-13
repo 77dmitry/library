@@ -34,7 +34,13 @@ public class LibraryServiceImpl implements GeneralService<Library> {
 
     @Override
     public Library add(Library library) {
-         return repository.save(library);
+        Library newLibrary = getByName(library.getNameLibrary());
+        if (newLibrary.equals(library)) {
+            return newLibrary;
+        }
+        newLibrary.setNameLibrary(library.getNameLibrary());
+        newLibrary.getBooks().addAll(library.getBooks());
+        return repository.save(newLibrary);
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "books_authors",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -64,6 +64,7 @@ public class Book {
     public void removeAuthor(Author author) {
         authors.remove(author);
     }
+
 
     @Override
     public boolean equals(Object o) {

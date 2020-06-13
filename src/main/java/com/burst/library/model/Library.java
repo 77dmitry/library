@@ -46,6 +46,14 @@ public class Library {
         this.books = books;
     }
 
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -60,4 +68,12 @@ public class Library {
         return Objects.hash(nameLibrary);
     }
 
+    @Override
+    public String toString() {
+        return "Library{" +
+                "id=" + id +
+                ", nameLibrary='" + nameLibrary + '\'' +
+                ", books=" + books +
+                '}';
+    }
 }
